@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -6,6 +6,7 @@ import { Participant } from './entities/participant.entity';
 import { Model } from 'mongoose';
 import { promises } from 'dns';
 import { exec } from 'child_process';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class ParticipantService {
@@ -30,8 +31,12 @@ export class ParticipantService {
     return await this.participantModel.find() ;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} participant`;
+ async findOneParticipant(id: string):Promise<Participant> {
+    const participant = await this.participantModel.findById(id)
+    if(!participant){
+      throw new NotFoundException(`Participant with id ${id} not found`)
+    }
+    return participant;
   }
 
   update(id: number, updateParticipantDto: UpdateParticipantDto) {
