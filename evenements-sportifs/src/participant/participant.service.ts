@@ -39,8 +39,12 @@ export class ParticipantService {
     return participant;
   }
 
-  update(id: number, updateParticipantDto: UpdateParticipantDto) {
-    return `This action updates a #${id} participant`;
+ async updateParticipant(id: string, updateParticipantDto: UpdateParticipantDto): Promise<Participant> {
+    const updateParticipant = await this.participantModel.findByIdAndUpdate(id,updateParticipantDto)
+    if(!updateParticipant){
+      throw new NotFoundException(`Participant with id ${id} not found`)
+    }
+    return updateParticipant;
   }
 
   remove(id: number) {

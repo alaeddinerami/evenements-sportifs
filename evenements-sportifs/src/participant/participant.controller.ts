@@ -25,8 +25,8 @@ export class ParticipantController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateParticipantDto: UpdateParticipantDto) {
-    return this.participantService.update(+id, updateParticipantDto);
+  updateParticipant(@Param('id') id: string, @Body() updateParticipantDto: UpdateParticipantDto) {
+    return this.participantService.updateParticipant(id, updateParticipantDto);
   }
 
   @Delete(':id')
