@@ -11,12 +11,16 @@ import * as bcrypt from 'bcrypt';
 import { log } from 'console';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
-
+import { RefreshToken } from './entities/refresh-token.entity';
+import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private UserModel: Model<User>,
-  private jwtServece: JwtService,
-){}
+  constructor(
+    @InjectModel(User.name) private UserModel: Model<User>,
+    @InjectModel(RefreshToken.name)
+    private RefreshTokenModel: Model<RefreshToken>,
+    private jwtServece: JwtService,
+  ) {}
 
   async signUp(signupData: SignupDto) {
     const { name, password, email } = signupData;
@@ -41,7 +45,7 @@ export class AuthService {
 
     return {
       message: 'User created successfully',
-      user: newUser.toObject(),
+      user: newUser,
     };
   }
   async login(loginData: LoginDto) {
@@ -50,14 +54,22 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('wrong loginData');
     }
-    const passwordMatch = await bcrypt.compare(password,user.password)
-    if(!passwordMatch){
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
       throw new UnauthorizedException('wrong loginData');
     }
-    return {maessage: "seccuses"}
+    return this.generateUserTokens(user._id);
   }
 
-  async generateUserTokens(userId){
-    const accessToken = this.jwtServece.sign({userId})
+  async generateUserTokens(userId) {
+    const accessToken = this.jwtServece.sign({ userId }, { expiresIn: '1h' });
+    const refreshToken = uuidv4();
+    await this.storeRefreshToken(refreshToken,userId)
+    return { accessToken, refreshToken };
+  }
+  async storeRefreshToken(token: string, userId) {
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 3);
+    await this.RefreshTokenModel.create({ token, userId, expiryDate });
   }
 }

@@ -23,7 +23,7 @@ import config from './config/config';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (config) => ({
-        secret: config.get('jwt.secrt'),
+        secret: config.get('jwt.secret'),
       }),
       global: true,
       inject: [ConfigService],
