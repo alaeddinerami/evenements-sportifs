@@ -10,5 +10,6 @@ import { Participant, ParticipantSchema } from './entities/participant.entity';
   ],
   controllers: [ParticipantController],
   providers: [ParticipantService],
+  exports: [MongooseModule],
 })
 export class ParticipantModule {}
