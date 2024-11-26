@@ -8,8 +8,8 @@ export class EventController {
   constructor(private readonly eventService: EventService) {}
 
   @Post()
-  create(@Body() createEventDto: CreateEventDto) {
-    return this.eventService.create(createEventDto);
+  createEvent(@Body() createEventDto: CreateEventDto):Promise<Event> {
+    return this.eventService.createEvent(createEventDto);
   }
 
   @Get()

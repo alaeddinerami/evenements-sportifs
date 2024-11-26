@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -19,7 +24,8 @@ export class ParticipantService {
   ): Promise<Participant> {
     const { email } = createParticipantDto;
     const existParticipant = await this.participantModel
-      .findOne({ email }).exec()
+      .findOne({ email })
+      .exec();
     if (existParticipant) {
       throw new ConflictException(`a participent with ${email} already exists`);
     }
@@ -28,26 +34,43 @@ export class ParticipantService {
   }
 
   async findAllParticipant() {
-    return await this.participantModel.find() ;
+    return await this.participantModel.find();
   }
 
- async findOneParticipant(id: string):Promise<Participant> {
-    const participant = await this.participantModel.findById(id)
-    if(!participant){
-      throw new NotFoundException(`Participant with id ${id} not found`)
+  async findOneParticipant(id: string): Promise<Participant> {
+    const participant = await this.participantModel.findById(id);
+    if (!participant) {
+      throw new NotFoundException(`Participant with id ${id} not found`);
     }
     return participant;
   }
 
- async updateParticipant(id: string, updateParticipantDto: UpdateParticipantDto): Promise<Participant> {
-    const updateParticipant = await this.participantModel.findByIdAndUpdate(id,updateParticipantDto)
-    if(!updateParticipant){
-      throw new NotFoundException(`Participant with id ${id} not found`)
+  async updateParticipant(
+    id: string,
+    updateParticipantDto: UpdateParticipantDto,
+  ): Promise<Participant> {
+    const updateParticipant = await this.participantModel.findByIdAndUpdate(
+      id,
+      updateParticipantDto,
+    );
+    if (!updateParticipant) {
+      throw new NotFoundException(`Participant with id ${id} not found`);
     }
     return updateParticipant;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} participant`;
+  async removeParticipant(
+    id: string,
+  ): Promise<{ participant: Participant; message: string }> {
+    const deleteParticipant = await this.participantModel.findByIdAndDelete(id);
+
+    if (!deleteParticipant) {
+      throw new NotFoundException(`Participant with id ${id} not found`);
+    }
+
+    return {
+      participant: deleteParticipant,
+      message: 'Participant removed successfully',
+    };
   }
 }
