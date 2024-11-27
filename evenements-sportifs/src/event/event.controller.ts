@@ -20,7 +20,7 @@ export class EventController {
   }
   @Get()
   findAll() {
-    return this.eventService.findAll();
+    return this.eventService.findAllEvent();
   }
 
   @Get(':id')
@@ -32,6 +32,7 @@ export class EventController {
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventService.update(+id, updateEventDto);
   }
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Date, Types } from 'mongoose';
+import { Participant } from 'src/participant/entities/participant.entity';
 
 @Schema({ timestamps: true })
 export class Event {
@@ -15,8 +16,8 @@ export class Event {
   @Prop()
   lacation:string
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Participant' }] })
-  participants: Types.ObjectId[];
+  @Prop({ type: [Types.ObjectId], ref: 'Participant' , default:[]})
+  participants: Participant[];
 
   @Prop({  type: Date,required: true })
   date: Date;
