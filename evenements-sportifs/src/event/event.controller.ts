@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
 import { EventService } from './event.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { ImageUploadInterceptor } from 'src/middleware/multer.middleware';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('event')
+@UseGuards(AuthGuard)
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
@@ -29,6 +31,7 @@ export class EventController {
   }
 
   @Patch(':id')
+  @UseInterceptors(ImageUploadInterceptor())
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventService.updateEvent(id, updateEventDto);
   }
@@ -36,6 +39,6 @@ export class EventController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.eventService.remove(+id);
+    return this.eventService.removeEvent(id);
   }
 }
