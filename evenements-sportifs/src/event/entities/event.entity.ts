@@ -12,10 +12,14 @@ export class Event {
   @Prop({ required: true })
   image: string;
 
+  @Prop()
+  lacation:string
+
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Participant' }] })
   participants: Types.ObjectId[];
 
   @Prop({  type: Date,required: true })
   date: Date;
+
 }
 export const EventSchema = SchemaFactory.createForClass(Event);

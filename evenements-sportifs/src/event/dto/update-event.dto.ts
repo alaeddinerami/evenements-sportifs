@@ -8,6 +8,8 @@ export class UpdateEventDto extends PartialType(CreateEventDto) {
 
   description?: string;
 
+  location?: string;
+
   participants?: Types.ObjectId[];
 
   date?: Date;
