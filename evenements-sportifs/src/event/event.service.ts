@@ -8,6 +8,7 @@ import { Event } from './entities/event.entity';
 import { types } from 'util';
 
 @Injectable()
+
 export class EventService {
   constructor(
     @InjectModel(Event.name) private eventModel: Model<Event>,
@@ -59,12 +60,27 @@ export class EventService {
     return event ;
   }
 
-  updateEvent(id: string ,@Body() updateEventDto: UpdateEventDto):Promise<Event> {
+  async updateEvent(id: string ,@Body() updateEventDto: UpdateEventDto):Promise<Event> {
+    
+    const updateEvent = await this.eventModel
+    .findByIdAndUpdate(id, updateEventDto, { new: true })
+    .populate('participants') 
+    .exec();
+        if(!updateEvent){
+      throw new NotFoundException(`event with ${id} not found`)
 
-    return ;
+    }
+    return updateEvent;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} event`;
+  async removeEvent(id: string):Promise<{event:Event, message:string}> {
+    const deleteEvent = await this.eventModel.findByIdAndDelete(id).exec()
+    if(!deleteEvent){
+      throw new NotFoundException(`event with ${id} not found`)
+
+    }
+    return {event:deleteEvent,
+      message:"event created seccussefully"
+    };
   }
 }
