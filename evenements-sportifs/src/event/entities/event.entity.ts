@@ -13,8 +13,8 @@ export class Event {
   @Prop({ required: true })
   image: string;
 
-  @Prop()
-  lacation:string
+  @Prop({ required: true })
+  location:string
 
   @Prop({ type: [Types.ObjectId], ref: 'Participant' , default:[]})
   participants: Participant[];

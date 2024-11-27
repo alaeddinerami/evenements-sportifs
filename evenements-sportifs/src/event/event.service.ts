@@ -1,10 +1,11 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Body, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Participant } from 'src/participant/entities/participant.entity';
 import { Event } from './entities/event.entity';
+import { types } from 'util';
 
 @Injectable()
 export class EventService {
@@ -12,16 +13,21 @@ export class EventService {
     @InjectModel(Event.name) private eventModel: Model<Event>,
     @InjectModel(Participant.name) private participantModel: Model<Participant>,
   ) {}
-  async createEvent(createEventDto: CreateEventDto,image: Express.Multer.File,): Promise<Event> {
+  async createEvent(
+    createEventDto: CreateEventDto,
+    image: Express.Multer.File,
+  ): Promise<Event> {
+    const { participants } = createEventDto;
 
-    const { participants } = createEventDto;  
-    
     if (participants && participants.length > 0) {
-    for (const participantId of participants) {
-      if (!Types.ObjectId.isValid(participantId)) {
-        throw new BadRequestException(`Invalid participant ID: ${participantId}`);
-      }}
-  
+      for (const participantId of participants) {
+        if (!Types.ObjectId.isValid(participantId)) {
+          throw new BadRequestException(
+            `Invalid participant ID: ${participantId}`,
+          );
+        }
+      }
+
       const validParticipants = await this.participantModel
         .find({ _id: { $in: participants } })
         .exec();
@@ -37,19 +43,25 @@ export class EventService {
     const newEvent = new this.eventModel({
       ...createEventDto,
       image: imagePath,
-    });    return newEvent.save();
+    });
+    return newEvent.save();
   }
 
-  async findAllEvent():Promise<Event[]> {
+  async findAllEvent(): Promise<Event[]> {
     return await this.eventModel.find().populate('participants').exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
+  async findOneEvent(id: string):Promise<Event> {    
+   const event = await this.eventModel.findById(id).populate('participants')
+    if(!event){
+      throw new NotFoundException(`event with ${id} not found`)
+    }
+    return event ;
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
-    return `This action updates a #${id} event`;
+  updateEvent(id: string ,@Body() updateEventDto: UpdateEventDto):Promise<Event> {
+
+    return ;
   }
 
   remove(id: number) {

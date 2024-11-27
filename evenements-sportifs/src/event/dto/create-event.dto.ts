@@ -13,7 +13,6 @@ export class CreateEventDto {
     location: string;
   
     @IsString()
-    // @Type(() => Date)
     date: String;
   
     @IsOptional()

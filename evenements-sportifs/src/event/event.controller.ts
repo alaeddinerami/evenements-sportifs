@@ -24,13 +24,13 @@ export class EventController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.eventService.findOne(+id);
+  findOneEvent(@Param('id') id: string) {
+    return this.eventService.findOneEvent(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
-    return this.eventService.update(+id, updateEventDto);
+    return this.eventService.updateEvent(id, updateEventDto);
   }
 
 
