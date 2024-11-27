@@ -9,13 +9,10 @@ export class EventController {
   constructor(private readonly eventService: EventService) {}
 
 
-  // @Post()
-  // createEvent(@Body() createEventDto: CreateEventDto):Promise<Event> {
-  //   return this.eventService.createEvent(createEventDto);
-  // }
+ 
  @Post()
   @UseInterceptors(ImageUploadInterceptor())
-  async create(
+  async createEvent(
     @Body() createEventDto: CreateEventDto,
     @UploadedFile() image: Express.Multer.File,
   ) {

@@ -13,11 +13,7 @@ export class EventService {
   ) {}
   async createEvent(createEventDto: CreateEventDto,image: Express.Multer.File,): Promise<Event> {
 
-
-    
-    const { participants } = createEventDto;
-
-    
+    const { participants } = createEventDto;    
     for (const participantId of participants) {
       if (!Types.ObjectId.isValid(participantId)) {
         throw new BadRequestException(`Invalid participant ID: ${participantId}`);
@@ -41,8 +37,9 @@ export class EventService {
     });    return newEvent.save();
   }
 
-  findAll() {
-    return `This action returns all event`;
+  async findAll():Promise<Event[]> {
+    const Events = await this.eventModel.find();
+    return Events;
   }
 
   findOne(id: number) {
