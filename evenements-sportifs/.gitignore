@@ -3,6 +3,7 @@
 /node_modules
 /build
 .env
+/uploads/event-images
 
 # Logs
 logs

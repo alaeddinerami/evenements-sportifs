@@ -11,8 +11,13 @@ export class EventService {
     @InjectModel(Event.name) private eventModel: Model<Event>,
     @InjectModel(Participant.name) private participantModel: Model<Participant>,
   ) {}
-  async createEvent(createEventDto: CreateEventDto): Promise<Event> {
+  async createEvent(createEventDto: CreateEventDto,image: Express.Multer.File,): Promise<Event> {
+
+
+    
     const { participants } = createEventDto;
+
+    
     for (const participantId of participants) {
       if (!Types.ObjectId.isValid(participantId)) {
         throw new BadRequestException(`Invalid participant ID: ${participantId}`);
@@ -28,8 +33,12 @@ export class EventService {
         );
       }
     }
-    const newEvent = new this.eventModel(createEventDto);
-    return newEvent.save();
+    const imagePath = image ? `uploads/event-images/${image.filename}` : null;
+
+    const newEvent = new this.eventModel({
+      ...createEventDto,
+      image: imagePath,
+    });    return newEvent.save();
   }
 
   findAll() {

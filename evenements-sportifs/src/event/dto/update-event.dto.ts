@@ -4,13 +4,5 @@ import { Types } from 'mongoose';
 
 export class UpdateEventDto extends PartialType(CreateEventDto) {
  
-  name?: string;
 
-  description?: string;
-
-  location?: string;
-
-  participants?: Types.ObjectId[];
-
-  date?: Date;
 }

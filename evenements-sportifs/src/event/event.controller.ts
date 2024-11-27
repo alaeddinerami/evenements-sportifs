@@ -1,17 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { EventService } from './event.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
+import { ImageUploadInterceptor } from 'src/middleware/multer.middleware';
 
 @Controller('event')
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
-  @Post()
-  createEvent(@Body() createEventDto: CreateEventDto):Promise<Event> {
-    return this.eventService.createEvent(createEventDto);
-  }
 
+  // @Post()
+  // createEvent(@Body() createEventDto: CreateEventDto):Promise<Event> {
+  //   return this.eventService.createEvent(createEventDto);
+  // }
+ @Post()
+  @UseInterceptors(ImageUploadInterceptor())
+  async create(
+    @Body() createEventDto: CreateEventDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    return this.eventService.createEvent(createEventDto, image);
+  }
   @Get()
   findAll() {
     return this.eventService.findAll();
