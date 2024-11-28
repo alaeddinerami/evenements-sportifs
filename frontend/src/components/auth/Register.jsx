@@ -1,27 +1,58 @@
 import { useState } from 'react';
+import axiosInstance from '../../client/axios'; // Adjust the path as per your project structure
+import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
-    const [name,setName]=useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password || !confirmPassword) {
+
+    if (!name || !email || !password || !confirmPassword) {
       setError('Please fill in all fields');
       return;
     }
+
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-    setError('');
-    setSuccess(true);
-    // Add registration logic here
-    console.log('Email:', email, 'Password:', password);
+
+    try {
+      setError('');
+      setSuccess(false);
+
+      const response = await axiosInstance.post('auth/signup', {
+        name,
+        email,
+        password,
+      });
+
+      if (response.status === 201) {
+        setSuccess(true);
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        console.log('Registration successful:', response.data);
+        localStorage.setItem("token",response.data.token)
+      }
+      navigate('/dashboard')
+    } catch (err) {
+      console.error('Registration error:', err);
+      if (err.response) {
+        setError(err.response.data.message || 'An error occurred during registration');
+      } else {
+        setError('Unable to connect to the server');
+      }
+    }
   };
 
   return (
@@ -32,20 +63,21 @@ function Register() {
         {success && <p className="text-green-500 text-center mb-4">Registration successful! Please log in.</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="Name" className="block text-sm font-medium text-black">
+            <label htmlFor="name" className="block text-sm font-medium text-black">
               Name
             </label>
             <input
-              type="name"
+              type="text"
               id="name"
               name="name"
-              placeholder="Enter your Name"
+              placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2 mt-1 border border-black rounded-lg focus:ring-red-500 focus:border-red-500"
               required
             />
           </div>
+
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-black">
               Email
@@ -103,9 +135,9 @@ function Register() {
         </form>
         <p className="text-sm text-center text-black mt-4">
           Already have an account?{' '}
-          <a href="/login" className="text-red-500 hover:underline hover:text-red-700 font-bold">
+          <Link Link to="/" className="text-red-500 hover:underline hover:text-red-700 font-bold">
             Login here
-          </a>
+          </Link>
         </p>
       </div>
     </div>
