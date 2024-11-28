@@ -1,7 +1,75 @@
-import React from 'react'
+import { useState } from 'react';
 
-export default function login() {
+function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+    setError('');
+    // Add login logic here
+    console.log('Email:', email, 'Password:', password);
+  };
+
   return (
-    <div>login</div>
-  )
+    <div className="min-h-screen flex items-center justify-center  bg-cover bg-[url('./assets\images\event.jpg')]">
+      <div className="w-full max-w-md bg-white/30 bg-blure  rounded-lg shadow-md p-8">
+        <h2 className="text-2xl font-bold text-center text-black mb-6">Login</h2>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-black">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 mt-1 border border-black rounded-lg focus:ring-red-500 focus:border-red-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-black">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 mt-1 border border-black rounded-lg focus:ring-red-500 focus:border-red-500"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
+          >
+            Login
+          </button>
+        </form>
+        <p className="text-sm text-center text-black mt-4">
+          Don't have an account?{' '}
+          <a href="/register" className="text-red-500 hover:underline">
+            Register here
+          </a>
+        </p>
+      </div>
+    </div>
+  );
 }
+
+export default LoginForm;
