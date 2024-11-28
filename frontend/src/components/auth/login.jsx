@@ -1,24 +1,51 @@
 import { useState } from 'react';
+import axiosInstance from '../../client/axios'; // Make sure you have axiosInstance set up
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError('Please fill in all fields');
       return;
     }
+
     setError('');
-    // Add login logic here
-    console.log('Email:', email, 'Password:', password);
+    setLoading(true);
+
+    try {
+      const response = await axiosInstance.post('/auth/login', {
+        email,
+        password,
+      });
+
+// console.log(response);
+
+      if (response.status === 201) {
+       
+        localStorage.setItem('token', response.data.token);
+        setLoading(false);
+        navigate('/dashboard')  
+      }
+    } catch (err) {
+      setLoading(false);
+      if (err.response) {
+        setError(err.response.data.message || 'Login failed');
+      } else {
+        setError('An error occurred. Please try again.');
+      }
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center  bg-cover bg-[url('./assets\images\event.jpg')]">
-      <div className="w-full max-w-md bg-white/30 bg-blure  rounded-lg shadow-md p-8">
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-[url('./assets/images/event.jpg')]">
+      <div className="w-full max-w-md bg-white/30 backdrop-blur-md rounded-lg shadow-md p-8">
         <h2 className="text-2xl font-bold text-center text-black mb-6">Login</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -57,8 +84,9 @@ function LoginForm() {
           <button
             type="submit"
             className="w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
+            disabled={loading}  
           >
-            Login
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
         <p className="text-sm text-center text-black mt-4">
