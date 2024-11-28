@@ -37,13 +37,20 @@ export class AuthService {
       email,
       password: hashPassword,
     });
-    console.log(newUser);
     await newUser.save();
+    const token = await this.generateUserTokens(newUser._id);
+    // console.log(token);
 
     return {
       message: 'User created successfully',
-      user: newUser,
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+      },
+      token,
     };
+
   }
   async login(loginData: LoginDto) {
     const { email, password } = loginData;
@@ -55,13 +62,14 @@ export class AuthService {
     if (!passwordMatch) {
       throw new UnauthorizedException('wrong loginData');
     }
-    return this.generateUserTokens(user._id);
+    const token = await this.generateUserTokens(user._id)
+    return {token};
   }
 
   async generateUserTokens(userId) {
-    const accessToken = this.jwtServece.sign({ userId }, { expiresIn: '1h' });
+    const accessToken = this.jwtServece.sign({ userId }, { expiresIn: '14h' });
     
-    return { accessToken };
+    return  accessToken ;
   }
 
 }
