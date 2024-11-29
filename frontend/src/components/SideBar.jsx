@@ -1,13 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHref } from "react-router-dom";
 
 export default function SideBar() {
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+  };
   return (
     <div className=" flex flex-col left-0 w-14 hover:w-64 md:w-64 bg-blue-900 min-h-[100vh] text-white transition-all duration-300 border-none z-10 ">
       <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
         <ul className="flex flex-col py-4 space-y-1">
           <li>
-            <Link to="/dashboard"
+            <Link
+              to="/dashboard"
               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 pr-6"
             >
               <span className="inline-flex justify-center items-center ml-4">
@@ -35,7 +40,8 @@ export default function SideBar() {
             <hr className="border-[1.2px] rounded-full" />
           </li>
           <li>
-            <Link to="/dashboard/events"
+            <Link
+              to="/dashboard/events"
               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 pr-6"
             >
               <span className="inline-flex justify-center items-center ml-4">
@@ -58,6 +64,26 @@ export default function SideBar() {
             </Link>
           </li>
         </ul>
+        <button
+          onClick={handleLogout}
+          className="flex items-center justify-center w-full mt-auto  py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none"
+        >
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H3"
+            />
+          </svg>
+          <span>Logout</span>
+        </button>
       </div>
     </div>
   );

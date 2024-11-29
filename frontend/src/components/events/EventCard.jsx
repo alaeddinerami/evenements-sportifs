@@ -44,6 +44,7 @@ const EventCard = () => {
         date: formData.get("date"),
         participants: formattedParticipants,
       };
+      
       updateEvent(eventToEdit._id,updatedData); 
     } else {
       createEvent(formData); 
