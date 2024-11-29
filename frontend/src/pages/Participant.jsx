@@ -1,9 +1,10 @@
-import React from 'react'
-import ParticipantTable from '../components/ParticipantTable'
+import React from "react";
+import ParticipantTable from "../components/participants/ParticipantTable";
 
 export default function Participant() {
   return (
-    
-    <div><ParticipantTable/></div>
-  )
+    <div>
+      <ParticipantTable />
+      </div>
+  );
 }
