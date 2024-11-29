@@ -6,6 +6,7 @@ import { Model, Types } from 'mongoose';
 import { Participant } from 'src/participant/entities/participant.entity';
 import { Event } from './entities/event.entity';
 import { types } from 'util';
+import { log } from 'console';
 
 @Injectable()
 
@@ -53,7 +54,13 @@ export class EventService {
   }
 
   async findOneEvent(id: string):Promise<Event> {    
-   const event = await this.eventModel.findById(id).populate('participants')
+   const event = await this.eventModel.findById(id).populate({
+    path: 'participants',
+    model: 'Participant',
+    select: 'name email _id',
+  }).exec()
+   console.log(event);
+   
     if(!event){
       throw new NotFoundException(`event with ${id} not found`)
     }
