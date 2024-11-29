@@ -4,9 +4,10 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { ImageUploadInterceptor } from 'src/middleware/multer.middleware';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { log } from 'console';
 
 @Controller('event')
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
@@ -18,6 +19,7 @@ export class EventController {
     @Body() createEventDto: CreateEventDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
+    // console.log(createEventDto)
     return this.eventService.createEvent(createEventDto, image);
   }
   @Get()
