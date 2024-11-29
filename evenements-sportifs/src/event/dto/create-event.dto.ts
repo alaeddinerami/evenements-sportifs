@@ -15,7 +15,8 @@ export class CreateEventDto {
     @IsString()
     date: String;
   
+
+
     @IsOptional()
-    @IsArray()
     participants?: string[];
 }

@@ -33,7 +33,7 @@ export class ParticipantService {
     return newParticipant.save();
   }
 
-  async findAllParticipant() {
+  async findAllParticipant() :Promise<Participant[]>{
     return await this.participantModel.find();
   }
 

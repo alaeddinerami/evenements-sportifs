@@ -19,7 +19,8 @@ export class EventController {
     @Body() createEventDto: CreateEventDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
-    // console.log(createEventDto)
+    console.log(createEventDto)
+   
     return this.eventService.createEvent(createEventDto, image);
   }
   @Get()
@@ -27,7 +28,7 @@ export class EventController {
     return this.eventService.findAllEvent();
   }
 
-  @Get(':id')
+  @Get(':id') 
   findOneEvent(@Param('id') id: string) {
     return this.eventService.findOneEvent(id);
   }

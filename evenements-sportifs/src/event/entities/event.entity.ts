@@ -17,10 +17,11 @@ export class Event {
   location:string
 
   @Prop({ type: [Types.ObjectId], ref: 'Participant' , default:[]})
-  participants: Participant[];
+  participants: Types.ObjectId[];
 
   @Prop({  type: Date,required: true })
   date: Date;
 
 }
 export const EventSchema = SchemaFactory.createForClass(Event);
+ 
