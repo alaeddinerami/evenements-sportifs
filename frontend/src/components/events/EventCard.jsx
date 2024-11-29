@@ -28,17 +28,27 @@ const EventCard = () => {
 
     const formData = new FormData(e.target);
 
-    const newEvent = {
-      name: formData.get("name"),
-      description: console.log(formData.get("description")),
-      
-      location: formData.get("location"),
-      date: formData.get("date"),
-      participants: formData.getAll("participants"), 
-      image: formData.get("image"), 
-    };
+    // Get all participants
+    const participants = formData.getAll("participants");
 
+    // Format participants array if needed
+    const formattedParticipants = participants.length > 0 ? participants : [];
+
+    console.log("Formatted Participants: ", formattedParticipants);
+
+    // Clear existing participants from FormData
+    formData.delete("participants");
+
+    formattedParticipants.forEach((participant) => {
+      formData.append("participants[]", participant);
+    });
+
+
+
+    // Send form data to create the event
     createEvent(formData);
+
+    // Close modal after submission
     setShowModal(false);
   };
 

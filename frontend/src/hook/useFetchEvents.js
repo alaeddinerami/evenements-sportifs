@@ -30,14 +30,24 @@ const useFetchEvents = () => {
   }, [fetchEvents, refresh]);
 
   const createEvent = async (newEvent) => {
+
+
     try {
-      await axiosInstance.post("/event", newEvent);
-      setRefresh((prev) => !prev);
+      await axiosInstance.post("/event", newEvent);  
+      setRefresh((prev) => !prev);  
     } catch (err) {
       console.error("Failed to create event:", err);
     }
   };
-
+  
+  const updateEvent = async (updatedEvent) => {
+    try {
+      await axiosInstance.put(`/event/${updatedEvent._id}`, updatedEvent);
+      setRefresh((prev) => !prev);
+    } catch (err) {
+      console.error("Failed to update event:", err);
+    }
+  };
   const deleteEvent = async (eventId) => {
     try {
       await axiosInstance.delete(`/event/${eventId}`);
