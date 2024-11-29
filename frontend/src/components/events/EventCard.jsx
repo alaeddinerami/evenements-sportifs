@@ -4,23 +4,23 @@ import EventFormModal from "./EventFormModal";
 import useFetchEvents from "../../hook/useFetchEvents";
 
 const EventCard = () => {
-  const { events, participantsList, loading, error, createEvent, deleteEvent } = useFetchEvents();
+  const { events, participantsList, loading, error, createEvent, updateEvent, deleteEvent } = useFetchEvents();
   const [showModal, setShowModal] = useState(false);
   const [eventToEdit, setEventToEdit] = useState(null);
 
   const handleEditEvent = (id) => {
     const event = events.find((e) => e._id === id);
-    setEventToEdit(event);
-    setShowModal(true);
+    setEventToEdit(event); 
+    setShowModal(true); 
   };
 
   const handleCreateEvent = () => {
-    setEventToEdit(null);
+    setEventToEdit(null); 
     setShowModal(true);
   };
 
   const handleDeleteEvent = (eventId) => {
-    deleteEvent(eventId);
+    deleteEvent(eventId); 
   };
 
   const handleSubmit = (e) => {
@@ -28,28 +28,28 @@ const EventCard = () => {
 
     const formData = new FormData(e.target);
 
-    // Get all participants
     const participants = formData.getAll("participants");
-
-    // Format participants array if needed
     const formattedParticipants = participants.length > 0 ? participants : [];
 
-    console.log("Formatted Participants: ", formattedParticipants);
-
-    // Clear existing participants from FormData
     formData.delete("participants");
-
     formattedParticipants.forEach((participant) => {
       formData.append("participants[]", participant);
     });
 
+    if (eventToEdit) {
+      const updatedData = {
+        name: formData.get("name"),
+        description: formData.get("description"),
+        location: formData.get("location"),
+        date: formData.get("date"),
+        participants: formattedParticipants,
+      };
+      updateEvent(eventToEdit._id,updatedData); 
+    } else {
+      createEvent(formData); 
+    }
 
-
-    // Send form data to create the event
-    createEvent(formData);
-
-    // Close modal after submission
-    setShowModal(false);
+    setShowModal(false); 
   };
 
   if (loading) return <p>Loading...</p>;
@@ -65,7 +65,7 @@ const EventCard = () => {
 
       {showModal && (
         <EventFormModal
-          event={eventToEdit}
+          event={eventToEdit} 
           participantsList={participantsList}
           onSubmit={handleSubmit}
           onClose={() => setShowModal(false)}

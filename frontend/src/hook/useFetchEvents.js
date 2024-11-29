@@ -40,9 +40,10 @@ const useFetchEvents = () => {
     }
   };
   
-  const updateEvent = async (updatedEvent) => {
+  const updateEvent = async (eventId, updatedEventData) => {
     try {
-      await axiosInstance.put(`/event/${updatedEvent._id}`, updatedEvent);
+      console.log(updatedEventData._id);
+      await axiosInstance.patch(`/event/${eventId}`, updatedEventData);
       setRefresh((prev) => !prev);
     } catch (err) {
       console.error("Failed to update event:", err);
@@ -50,6 +51,8 @@ const useFetchEvents = () => {
   };
   const deleteEvent = async (eventId) => {
     try {
+      console.log(eventId);
+      
       await axiosInstance.delete(`/event/${eventId}`);
       setRefresh((prev) => !prev);
     } catch (err) {
@@ -57,7 +60,7 @@ const useFetchEvents = () => {
     }
   };
 
-  return { events, participantsList, loading, error, createEvent, deleteEvent };
+  return { events, participantsList, loading, error, createEvent, updateEvent, deleteEvent };
 };
 
 export default useFetchEvents;

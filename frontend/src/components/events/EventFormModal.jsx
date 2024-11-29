@@ -13,7 +13,6 @@ const EventFormModal = ({ event, participantsList, onSubmit, onClose }) => {
           {isEditing ? "Edit Event" : "Create a New Event"}
         </h3>
         <form onSubmit={onSubmit} encType="multipart/form-data">
-          {/* Event Name */}
           <div className="mb-4">
             <label
               htmlFor="name"
@@ -31,7 +30,6 @@ const EventFormModal = ({ event, participantsList, onSubmit, onClose }) => {
             />
           </div>
 
-          {/* Description */}
           <div className="mb-4">
             <label
               htmlFor="description"
@@ -48,7 +46,6 @@ const EventFormModal = ({ event, participantsList, onSubmit, onClose }) => {
             ></textarea>
           </div>
 
-          {/* Image URL */}
           <div className="mb-4">
             <label
               htmlFor="image"
@@ -64,7 +61,6 @@ const EventFormModal = ({ event, participantsList, onSubmit, onClose }) => {
             />
           </div>
 
-          {/* Location */}
           <div className="mb-4">
             <label
               htmlFor="location"
@@ -111,7 +107,6 @@ const EventFormModal = ({ event, participantsList, onSubmit, onClose }) => {
             </div>
           </div>
 
-          {/* Date */}
           <div className="mb-4">
             <label
               htmlFor="date"
@@ -131,7 +126,6 @@ const EventFormModal = ({ event, participantsList, onSubmit, onClose }) => {
             />
           </div>
 
-          {/* Actions */}
           <div className="flex justify-end space-x-4">
             <button
               type="submit"
