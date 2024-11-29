@@ -8,7 +8,7 @@ import { AuthGuard } from 'src/guards/auth.guard';
 
 
 @Controller('participant')
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class ParticipantController {
   constructor(private readonly participantService: ParticipantService) {}
 
@@ -34,6 +34,7 @@ export class ParticipantController {
 
   @Delete(':id')
   removeParticipant(@Param('id') id: string):Promise<{ participant: Participant; message: string }> {
+    console.log(id)
     return this.participantService.removeParticipant(id);
   }
 }
