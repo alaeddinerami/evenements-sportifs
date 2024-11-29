@@ -3,6 +3,10 @@ import EventCard from '../components/EventCard'
 
 export default function Event() {
   return (
-    <div><EventCard/></div>
+    <div>
+      
+      <EventCard/>
+      
+      </div>
   )
 }
