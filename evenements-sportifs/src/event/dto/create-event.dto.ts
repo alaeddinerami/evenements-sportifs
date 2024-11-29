@@ -17,5 +17,5 @@ export class CreateEventDto {
   
     @IsOptional()
     @IsArray()
-    participants?: Types.ObjectId[];
+    participants?: string[];
 }
