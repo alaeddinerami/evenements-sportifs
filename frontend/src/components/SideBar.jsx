@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function SideBar() {
   return (
@@ -6,8 +7,7 @@ export default function SideBar() {
       <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
         <ul className="flex flex-col py-4 space-y-1">
           <li>
-            <a
-              href=""
+            <Link to="/dashboard"
               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 pr-6"
             >
               <span className="inline-flex justify-center items-center ml-4">
@@ -29,14 +29,13 @@ export default function SideBar() {
               <span className="ml-2 text-sm tracking-wide truncate">
                 Dashboard
               </span>
-            </a>
+            </Link>
           </li>
           <li className="px-5 hidden md:block">
             <hr className="border-[1.2px] rounded-full" />
           </li>
           <li>
-            <a
-              href="/admin-user"
+            <Link to="/dashboard/events"
               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 pr-6"
             >
               <span className="inline-flex justify-center items-center ml-4">
@@ -55,92 +54,8 @@ export default function SideBar() {
                   />
                 </svg>
               </span>
-              <span className="ml-2 text-sm tracking-wide truncate">Users</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="/admin-film"
-              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 pr-6"
-            >
-              <span className="inline-flex justify-center items-center ml-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 4h16v16H4V4zM4 8h16M8 4v16"
-                  />
-                </svg>
-              </span>
-              <span className="ml-2 text-sm tracking-wide truncate">Film</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="/admin-session"
-              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 pr-6"
-            >
-              <span className="inline-flex justify-center items-center ml-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="8"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  />
-                  <circle cx="12" cy="12" r="3" fill="currentColor" />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4v2M12 16v2M4 12h2m16 0h-2m-2.5-6.5l1.5 1.5m-11 11l1.5-1.5M18 12l-1.5 1.5M6 12l1.5-1.5"
-                  />
-                </svg>
-              </span>
-              <span className="ml-2 text-sm tracking-wide truncate">
-                Sessions
-              </span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="/admin-salles"
-              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 pr-6"
-            >
-              <span className="inline-flex justify-center items-center ml-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 6h18M3 6l1 12h12l1-12M3 6v12a2 2 0 002 2h12a2 2 0 002-2V6M8 6v12"
-                  />
-                </svg>
-              </span>
-              <span className="ml-2 text-sm tracking-wide truncate">
-                Salles
-              </span>
-            </a>
+              <span className="ml-2 text-sm tracking-wide truncate">Event</span>
+            </Link>
           </li>
         </ul>
       </div>
