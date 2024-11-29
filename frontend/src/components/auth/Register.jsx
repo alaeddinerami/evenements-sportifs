@@ -135,7 +135,7 @@ function Register() {
         </form>
         <p className="text-sm text-center text-black mt-4">
           Already have an account?{' '}
-          <Link Link to="/" className="text-red-500 hover:underline hover:text-red-700 font-bold">
+          <Link  to="/" className="text-red-500 hover:underline hover:text-red-700 font-bold">
             Login here
           </Link>
         </p>
