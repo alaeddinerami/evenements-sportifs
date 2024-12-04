@@ -23,6 +23,16 @@ const ParticipantForm = ({ participant, onChange, onSubmit, onCancel }) => (
       />
     </div>
     <div className="mb-4">
+      <label className="block text-sm font-semibold text-gray-700">Email</label>
+      <input
+        type="text"
+        value={participant.genre}
+        onChange={(e) => onChange({ ...participant, genre: e.target.value })}
+        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded"
+        required
+      />
+    </div>
+    <div className="mb-4">
       <label className="block text-sm font-semibold text-gray-700">Phone</label>
       <input
         type="text"

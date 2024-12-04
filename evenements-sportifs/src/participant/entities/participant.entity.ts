@@ -14,6 +14,8 @@ export class Participant extends Document {
     @Prop()
     phone: string
 
+    @Prop({type:String, enum:['admin','client']})
+    genre: String
 }
 
 export const ParticipantSchema = SchemaFactory.createForClass(Participant);

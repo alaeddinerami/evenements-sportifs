@@ -1,4 +1,4 @@
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsString } from 'class-validator';
 
 export class CreateParticipantDto {
   @IsString()
@@ -9,4 +9,7 @@ export class CreateParticipantDto {
 
   @IsString()
   phone:string
+
+  @IsEnum(['admin','client'])
+  genre:String
 }
