@@ -3,12 +3,12 @@ import { ParticipantService } from './participant.service';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { Participant } from './entities/participant.entity';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 
 
 @Controller('participant')
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class ParticipantController {
   constructor(private readonly participantService: ParticipantService) {}
 

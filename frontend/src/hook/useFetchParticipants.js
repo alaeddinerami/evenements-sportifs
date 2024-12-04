@@ -7,7 +7,7 @@ const useFetchParticipants = () => {
   const [error, setError] = useState(null);
   const [refresh, setRefresh] = useState(false);
 
-  const fetchParticipants = useCallback(async () => {
+  const fetchParticipants = async () => {
     setLoading(true);
     setError(null);
 
@@ -20,11 +20,11 @@ const useFetchParticipants = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchParticipants();
-  }, [fetchParticipants, refresh]);
+  },[refresh]);
 
   const addParticipant = async (newParticipant) => {
     try {

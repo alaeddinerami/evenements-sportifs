@@ -1,13 +1,14 @@
 import React from "react";
 
-const EventList = ({ events, onEditEvent, onDeleteEvent }) => {
+const EventList = ({ events, onEditEvent, onDeleteEvent, onViewEvent }) => {
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
       {events.length > 0 ? (
         events.map((event) => (
-          <div key={event._id} className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
-            <img src={`http://localhost:3000/${event.image}` || "default-image.jpg"} alt={event.name} className="w-full h-48 object-cover" />
-            <div className="p-4">
+          <div key={event._id} 
+          className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
+            <img src={`http://localhost:3000/${event.image}` || "default-image.jpg"} alt={event.name} className="w-full h-48 object-cover cursor-po" onClick={() => onViewEvent(event)}  />
+            <div  className="p-4">
               <h4 className="text-xl font-semibold text-gray-800">{event.name}</h4>
               <p className="text-sm text-gray-600 mt-2">{event.description}</p>
               <p className="text-sm text-gray-600 mt-2"><strong>Date:</strong> {new Date(event.date).toLocaleString()}</p>

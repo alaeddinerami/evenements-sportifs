@@ -6,7 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import AuthHelper from "./helpers/authHelper";
 import Participant from "./pages/Participant";
 import Event from "./pages/Event";
-import EventDetail from "./components/events/EventDetail";
+import EventDetailModal from "./components/events/EventDetailModal";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
 
        <Route index element={<Participant/>} />
        <Route  path="/dashboard/events" element={<Event />} />
-       <Route  path="dashboard/event-details/:id" element={<EventDetail />} />
+       <Route  path="dashboard/event-details/:id" element={<EventDetailModal />} />
         </Route>
      
       </Routes>

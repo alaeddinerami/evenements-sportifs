@@ -8,7 +8,7 @@ const useFetchEvents = () => {
   const [participantsList, setParticipantsList] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
-  const fetchEvents = useCallback(async () => {
+  const fetchEvents = async () => {
     setLoading(true);
     setError(null);
 
@@ -23,11 +23,11 @@ const useFetchEvents = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }
 
   useEffect(() => {
     fetchEvents();
-  }, [fetchEvents, refresh]);
+  }, [ refresh]);
 
   const createEvent = async (newEvent) => {
 
@@ -52,7 +52,7 @@ const useFetchEvents = () => {
   const deleteEvent = async (eventId) => {
     try {
       console.log(eventId);
-      
+    
       await axiosInstance.delete(`/event/${eventId}`);
       setRefresh((prev) => !prev);
     } catch (err) {

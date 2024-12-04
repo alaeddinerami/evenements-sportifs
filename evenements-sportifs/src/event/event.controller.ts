@@ -7,7 +7,7 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { log } from 'console';
 
 @Controller('event')
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 

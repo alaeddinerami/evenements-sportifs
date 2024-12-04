@@ -58,6 +58,7 @@ const EventFormModal = ({ event, participantsList, onSubmit, onClose }) => {
               id="image"
               name="image"
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              required
             />
           </div>
 

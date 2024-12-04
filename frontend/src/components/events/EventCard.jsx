@@ -2,25 +2,36 @@ import React, { useState } from "react";
 import EventList from "./EventList";
 import EventFormModal from "./EventFormModal";
 import useFetchEvents from "../../hook/useFetchEvents";
+import EventDetailModal from "./EventDetailModal";
 
 const EventCard = () => {
-  const { events, participantsList, loading, error, createEvent, updateEvent, deleteEvent } = useFetchEvents();
+  const {
+    events,
+    participantsList,
+    loading,
+    error,
+    createEvent,
+    updateEvent,
+    deleteEvent,
+  } = useFetchEvents();
   const [showModal, setShowModal] = useState(false);
   const [eventToEdit, setEventToEdit] = useState(null);
 
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
   const handleEditEvent = (id) => {
     const event = events.find((e) => e._id === id);
-    setEventToEdit(event); 
-    setShowModal(true); 
+    setEventToEdit(event);
+    setShowModal(true);
   };
 
   const handleCreateEvent = () => {
-    setEventToEdit(null); 
+    setEventToEdit(null);
     setShowModal(true);
   };
 
   const handleDeleteEvent = (eventId) => {
-    deleteEvent(eventId); 
+    deleteEvent(eventId);
   };
 
   const handleSubmit = (e) => {
@@ -44,13 +55,13 @@ const EventCard = () => {
         date: formData.get("date"),
         participants: formattedParticipants,
       };
-      
-      updateEvent(eventToEdit._id,updatedData); 
+
+      updateEvent(eventToEdit._id, updatedData);
     } else {
-      createEvent(formData); 
+      createEvent(formData);
     }
 
-    setShowModal(false); 
+    setShowModal(false);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -58,18 +69,32 @@ const EventCard = () => {
 
   return (
     <div>
-      <button onClick={handleCreateEvent} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+      <button
+        onClick={handleCreateEvent}
+        className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+      >
         Create Event
       </button>
 
-      <EventList events={events} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
+      <EventList
+        events={events}
+        onEditEvent={handleEditEvent}
+        onDeleteEvent={handleDeleteEvent}
+        onViewEvent={(event) => setSelectedEvent(event)}
+      />
 
       {showModal && (
         <EventFormModal
-          event={eventToEdit} 
+          event={eventToEdit}
           participantsList={participantsList}
           onSubmit={handleSubmit}
           onClose={() => setShowModal(false)}
+        />
+      )}
+         {selectedEvent && (
+        <EventDetailModal
+          event={selectedEvent}
+          onClose={() => setSelectedEvent(null)} 
         />
       )}
     </div>

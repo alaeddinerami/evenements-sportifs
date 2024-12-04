@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axiosInstance from '../../client/axios'; // Make sure you have axiosInstance set up
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -91,9 +91,9 @@ function LoginForm() {
         </form>
         <p className="text-sm text-center text-black mt-4">
           Don't have an account?{' '}
-          <a href="/register" className="text-red-500 hover:underline">
+          <Link to="/register" className="text-red-500 hover:underline">
             Register here
-          </a>
+          </Link>
         </p>
       </div>
     </div>
